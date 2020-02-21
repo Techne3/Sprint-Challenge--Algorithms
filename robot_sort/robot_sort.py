@@ -93,11 +93,52 @@ class SortingRobot:
         return self._light == "ON"
 
     def sort(self):
+
         """
         Sort the robot's list.
         """
         # Fill this out
-        pass
+     
+     # The sort that I am going to use is the selection sort
+     # when an item is picked up it will leave none in that postion 
+     # when the lights are on this will start the loops
+        self.set_light_on()
+
+        # While true - set the light as ON to begin loop
+        while self.light_is_on():
+            self.set_light_off()
+            # Since I'm staring at index 0 I will pick up the item with swap_item() to compare with 
+            # all indexes to the right.
+            self.swap_item()
+            print(self.swap_item())
+            # start to move to the right indexes to compare the items value
+            while self.can_move_right():
+                self.move_right()
+                # compare the held item to the each item in the list
+                if self.compare_item() == 1:
+                    # if the current item is smaller the held item swap for the smaller item
+                    self.swap_item()
+                    self.set_light_on()
+                # if the robot has made it to the far right of list without finding a smaller item, the robot
+                # will place the item back in its picked up location. This will be the smallest item.
+            while self.can_move_left():
+                self.swap_item()
+                self.move_left()
+                # We then move the robot to the index of 1 to pickup the current item and will repeat moving right to compare the held item with the rest of the items.
+                if self.compare_item() == -1:
+                    # repeat the same process moving right until finding the next smallest item in the list
+                    self.swap_item()
+                    self.set_light_on()
+                self.move_right()
+                self.swap_item()
+                self.move_left()
+
+        # Else: to end the loop set the light as OFF
+        else:
+            self.set_light_off()
+
+
+
 
 
 if __name__ == "__main__":
